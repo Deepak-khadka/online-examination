@@ -1,0 +1,36 @@
+<?php
+
+use App\Foundation\Lib\Status;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateSubjectsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('subjects', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('course_id')->constrained('course')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('name');
+            $table->longText('description');
+            $table->integer('is_active')->default(Status::ACTIVE);
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('subjects');
+    }
+}
