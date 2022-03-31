@@ -21,6 +21,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/admin', function () {
-    return view('admin.index');
+Route::group(['prefix' => '/admin', 'as' => 'admin.', 'middleware' => 'auth'], function () {
+    include_once 'admin.php';
 });
+

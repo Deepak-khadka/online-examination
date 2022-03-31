@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   @include('admin.layouts.partials.header')
+  @livewireStyles
 <body>
 <div class="container">
     <div class="row p-2 top-header">
@@ -20,17 +21,29 @@
                     {{ auth()->user()->name }}
                 </button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="profile.php">Profile</a>
+                    <a class="dropdown-item" href="{{ route('admin.profile') }}">Profile</a>
                 </div>
             </div>
-            <a href="logout.php" class="btn btn-danger">Logout</a>
+
+            <div class="btn-group">
+                <a class="btn btn-danger" href="{{ route('logout') }}"
+                   onclick="event.preventDefault();
+                   document.getElementById('logout-form').submit();">
+                    {{ __('Logout') }}
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </div>
         </div>
     </div>
 
-@include('admin.layouts.partials.sidebar')
+  @livewire('admin-menu-bar-component')
 
 @yield('content')
 
 @include('admin.layouts.partials.footer')
+@livewireScripts
 </body>
 </html>
