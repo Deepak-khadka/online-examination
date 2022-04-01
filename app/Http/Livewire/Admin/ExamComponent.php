@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Admin;
 use App\Foundation\Lib\Status;
 use App\Models\Course;
 use App\Models\Exam;
+use App\Models\Subject;
 
 class ExamComponent extends BaseComponent implements CrudComponent
 {
@@ -13,6 +14,8 @@ class ExamComponent extends BaseComponent implements CrudComponent
     public $examList = [];
 
     public $exam;
+
+    public $displayExamSubjects = [];
 
     public $filter = [
         'course_id' => '',
@@ -23,6 +26,15 @@ class ExamComponent extends BaseComponent implements CrudComponent
         'terms_and_conditions' => ''
     ];
 
+    public $showQuestionForm = false;
+
+    public $subject;
+
+    public $questionFilter = [
+        'exam_id' => '',
+        'subject_id' => '',
+        'question' => ' '
+    ];
     protected $rules = [
         'filter.course_id' => 'required|integer',
         'filter.name' => 'required|string',
@@ -64,4 +76,24 @@ class ExamComponent extends BaseComponent implements CrudComponent
     {
         $this->updateModel(Exam::class, $this->filter);
     }
+
+    public function showSubjects($id): void
+    {
+       $this->displayExamSubjects = Exam::with('course.subjects')->find($id);
+    }
+
+    public function toggleDisplay(): void
+    {
+        $this->displayExamSubjects = [];
+    }
+
+    public function addQuestions($subjectId): void
+    {
+        $this->subject = Subject::find($subjectId);
+
+        $this->questionFilter['exam_id'] = $this->displayExamSubjects['id'];
+        $this->questionFilter['subject_id'] = $subjectId;
+        $this->showQuestionForm = true;
+    }
+
 }

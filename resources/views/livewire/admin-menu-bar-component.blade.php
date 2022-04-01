@@ -19,14 +19,14 @@
                     <li class="nav-item {{ request()->is('admin/exam*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('admin.exam') }}">Exam</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="qustionmiddle.php">Question</a>
+                    <li class="nav-item {{ request()->is('admin/question*') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin.question') }}">Question</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="record.php">View Record</a>
+                    <li class="nav-item {{ request()->is('admin/records*') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin.records') }}">View Record</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="result.php">Result</a>
+                    <li class="nav-item {{ request()->is('admin/result*') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin.result') }}">Result</a>
                     </li>
                 </ul>
             </div>

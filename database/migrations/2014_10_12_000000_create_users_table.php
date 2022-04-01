@@ -1,5 +1,6 @@
 <?php
 
+use App\Foundation\Lib\Status;
 use App\Foundation\Lib\UserType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -25,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->integer('user_type')->default(UserType::STUDENT);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->integer('status')->default(Status::INACTIVE);
             $table->rememberToken();
             $table->timestamps();
         });

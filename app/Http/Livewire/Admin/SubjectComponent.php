@@ -50,11 +50,11 @@ class SubjectComponent extends BaseComponent
 
         $subject = Subject::create($this->filter);
 
+        $this->reset();
+
         if($subject) {
             $this->setSuccessMessage("Subject Created Successfully");
         }
-
-        $this->reset();
     }
 
 
@@ -98,6 +98,7 @@ class SubjectComponent extends BaseComponent
         $this->subject->update();
 
         $this->reset();
+
         $this->setSuccessMessage("Subject Updated Successfully");
 
     }

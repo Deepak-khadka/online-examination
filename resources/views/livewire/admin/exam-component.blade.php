@@ -50,41 +50,84 @@
                     </div>
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-12 col-12">
+
                     <div class="card border border-primary">
-                        <div class="card-block">
-                            <div class="card-header bg-primary text-light">
-                                <h5><i class="fa fa-book"></i> Exam Lists</h5>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-stripped" style="font-size: 14px;">
-                                    <thead class="alert-danger">
-                                    <th>Course Name</th>
-                                    <th>Exam Name</th>
-                                    <th>Exam Date</th>
-                                    <th>Full Marks</th>
-                                    <th>Exam Duration</th>
-                                    <th>Action</th>
-                                    </thead>
-                                    <tbody>
+                        @if(!empty($this->displayExamSubjects))
 
-                                    @foreach($this->examList as $exam)
-                                        <tr>
-                                            <td>{{ $exam->course->name }}</td>
-                                            <td>{{ $exam->name }}</td>
-                                            <td>{{ $exam->exam_date }}</td>
-                                            <td>{{ $exam->full_marks }}</td>
-                                            <td>{{ $exam->exam_duration }}</td>
-                                            <td>
-                                                <span  class="btn btn-danger" wire:click.prevent="delete({{ $exam->id }})"><i class="fa fa-trash"></i></span>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                            <div class="card-block">
+                                <div class="card-header bg-primary text-light">
+                                    <div class="row">
+                                        <h5><i class="fa fa-book"></i> Subject Lists</h5>
+                                    </div>
+                                    <div class="pull-right">
+                                        <span  class="btn btn-sm btn-primary" wire:click.prevent="toggleDisplay">Back</span>
+                                    </div>
 
-                                    </tbody>
-                                </table>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-stripped" style="font-size: 14px;">
+                                        <thead>
+                                        <th>Subject Name</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($this->displayExamSubjects->course->subjects as $subject)
+                                            <tr>
+                                                <td>{{ $subject->name }}</td>
+                                                <td>{{ \App\Foundation\Lib\Status::$current[$subject->is_active] }}</td>
+                                                <td class="flex" >
+                                                    <i class="fa fa-plus btn btn-sm btn-secondary" style="cursor: pointer" title="Add Question" wire:click.prevent="addQuestions({{ $subject->id }})"></i>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
+                        @else
+                            <div class="card-block">
+                                <div class="card-header bg-primary text-light">
+                                    <h5><i class="fa fa-book"></i> Exam Lists</h5>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-stripped" style="font-size: 14px;">
+                                        <thead class="alert-danger">
+                                        <th>Course Name</th>
+                                        <th>Exam Name</th>
+                                        <th>Exam Date</th>
+                                        <th>Full Marks</th>
+                                        <th>Exam Duration</th>
+                                        <th>Action</th>
+                                        </thead>
+                                        <tbody>
+
+                                        @foreach($this->examList as $exam)
+                                            <tr>
+                                                <td>{{ $exam->course->name }}</td>
+                                                <td>{{ $exam->name }}</td>
+                                                <td>{{ $exam->exam_date }}</td>
+                                                <td>{{ $exam->full_marks }}</td>
+                                                <td>{{ $exam->exam_duration }}</td>
+                                                <td>
+                                                    <span class="btn btn-sm btn-success" wire:click.prevent="showSubjects({{ $exam->id }})" style="cursor:pointer;" title="Show Subject"><i class="fa fa-eye"></i></span>
+                                                    <span class="btn btn-sm btn-danger" wire:click.prevent="delete({{ $exam->id }})" style="cursor:pointer;" title="Delete"><i class="fa fa-trash"></i></span>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @endif
                     </div>
+
+                    @if($this->showQuestionForm)
+                        @include('livewire.admin.exam.question')
+                    @endif
                 </div>
             </div>
 
