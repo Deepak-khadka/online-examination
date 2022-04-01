@@ -5,9 +5,8 @@ namespace App\Http\Livewire\Admin;
 use App\Foundation\Lib\Status;
 use App\Models\Course;
 use App\Models\Subject;
-use Livewire\Component;
 
-class SubjectComponent extends Component
+class SubjectComponent extends BaseComponent
 {
     public $filter = [
         'course_id' => '',
@@ -16,10 +15,9 @@ class SubjectComponent extends Component
         'is_active' => '',
     ];
 
-    public $message = [
-        'success' => '',
-        'error' => ''
-    ];
+    public $editPage = false;
+
+    public $subject;
 
     public $subjectList = [];
 
@@ -41,7 +39,7 @@ class SubjectComponent extends Component
 
     public function render()
     {
-        $this->subjectList = Subject::with('course')->where('is_active', '=', Status::ACTIVE)->get();
+        $this->subjectList = Subject::with('course')->get();
         $this->courseList = Course::where('is_active', '=', Status::ACTIVE)->pluck('name', 'id');
         return view('livewire.admin.subject-component');
     }
@@ -53,17 +51,54 @@ class SubjectComponent extends Component
         $subject = Subject::create($this->filter);
 
         if($subject) {
-            $this->message['success'] = "Subject Created Successfully";
+            $this->setSuccessMessage("Subject Created Successfully");
         }
+
+        $this->reset();
     }
 
-    public function delete($id)
+
+    public function edit($id): void
+    {
+        $this->subject = Subject::find($id);
+        $this->editPage = true;
+
+        $this->filter = [
+            'name' => $this->subject['name'],
+            'description' => $this->subject['description'],
+            'is_active' => $this->subject['is_active'],
+            'course_id' => $this->subject['course_id']
+        ];
+    }
+
+    public function delete($id): void
     {
         $subject = Subject::find($id);
 
         if($subject) {
             $subject->delete();
-            $this->message['success'] = 'Subject Deleted Successfully';
+            $this->setSuccessMessage('Subject Deleted Successfully');
         }
+    }
+
+    public function togglePage(): void
+    {
+        $this->editPage = !($this->editPage === true);
+        $this->reset();
+    }
+
+    public function update(): void
+    {
+        $this->validate();
+
+        $this->subject['name'] = $this->filter['name'];
+        $this->subject['description'] = $this->filter['description'];
+        $this->subject['is_active'] = $this->filter['is_active'];
+        $this->subject['course_id'] = $this->filter['course_id'];
+        $this->subject->update();
+
+        $this->reset();
+        $this->setSuccessMessage("Subject Updated Successfully");
+
     }
 }

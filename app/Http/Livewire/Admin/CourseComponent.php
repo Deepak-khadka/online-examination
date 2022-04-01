@@ -32,7 +32,7 @@ class CourseComponent extends Component
     ];
     public function render()
     {
-        $this->courseList = Course::where('is_active', '=', Status::ACTIVE)->pluck('name', 'id');
+        $this->courseList = Course::pluck('name', 'id');
         return view('livewire.admin.course-component');
     }
 

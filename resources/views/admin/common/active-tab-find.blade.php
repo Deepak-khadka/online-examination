@@ -1,0 +1,31 @@
+<div class='container'>
+    Seconds : <div id='seconds'></div>
+</div>
+
+<!-- Script -->
+<script type='text/javascript'>
+
+    var count = 0;
+    var myInterval;
+    // Active
+    window.addEventListener('focus', startTimer);
+
+    // Inactive
+    window.addEventListener('blur', stopTimer);
+
+    function timerHandler() {
+        count++;
+        document.getElementById("seconds").innerHTML = count;
+    }
+
+    // Start timer
+    function startTimer() {
+        console.log('focus');
+        myInterval = window.setInterval(timerHandler, 1000);
+    }
+
+    // Stop timer
+    function stopTimer() {
+        window.clearInterval(myInterval);
+    }
+</script>

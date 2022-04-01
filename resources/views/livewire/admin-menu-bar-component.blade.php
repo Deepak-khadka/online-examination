@@ -16,8 +16,8 @@
                     <li class="nav-item {{ request()->is('admin/course*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('admin.course') }}">Course</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="exam.php">Exam</a>
+                    <li class="nav-item {{ request()->is('admin/exam*') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin.exam') }}">Exam</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="qustionmiddle.php">Question</a>
