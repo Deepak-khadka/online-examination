@@ -19,9 +19,9 @@
                     <li class="nav-item {{ request()->is('admin/exam*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('admin.exam') }}">Exam</a>
                     </li>
-                    <li class="nav-item {{ request()->is('admin/question*') ? 'active' : '' }}">
+                  {{--  <li class="nav-item {{ request()->is('admin/question*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('admin.question') }}">Question</a>
-                    </li>
+                    </li>--}}
                     <li class="nav-item {{ request()->is('admin/records*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('admin.records') }}">View Record</a>
                     </li>

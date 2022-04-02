@@ -26,22 +26,47 @@
                                     <div class="form-group">
                                         <label for="name">Exam Name</label>
                                         <input type="text" wire:model="filter.name" id="name" class="form-control" placeholder="Exam Name" name="name">
+
+                                        @error('filter.name')
+                                             <span class="error">{{ $message }}</span>
+                                        @enderror
+
                                     </div>
                                     <div class="form-group">
                                         <label for="exam_date">Exam Date</label>
                                         <input type="date" id="exam_date" wire:model="filter.exam_date" class="form-control datepicker" placeholder="Exam Date" name="exam_date">
+
+                                        @error('filter.exam_date')
+                                        <span class="error">{{ $message }}</span>
+                                        @enderror
+
                                     </div>
                                     <div class="form-group">
                                         <label for="full_marks">Full Marks</label>
                                         <input type="text" id="full_marks" wire:model="filter.full_marks" class="form-control" placeholder="Full Marks" name="full_marks">
+
+                                        @error('filter.full_marks')
+                                        <span class="error">{{ $message }}</span>
+                                        @enderror
+
                                     </div>
                                     <div class="form-group">
                                         <label for="exam_duration">Exam Duration in Minutes</label>
                                         <input type="text" id="exam_duration" wire:model="filter.exam_duration" class="form-control" placeholder="Exam Duration" name="exam_duration">
+
+                                        @error('filter.exam_duration')
+                                        <span class="error">{{ $message }}</span>
+                                        @enderror
+
                                     </div>
                                     <div class="form-group">
                                         <label for="terms_and_conditions">Terms and Conditions</label>
                                         <textarea class="form-control" wire:model="filter.terms_and_conditions" id="terms_and_conditions" name="terms_and_conditions" placeholder="Terms and Conditions" ></textarea>
+
+                                        @error('filter.terms_and_conditions')
+                                        <span class="error">{{ $message }}</span>
+                                        @enderror
+
                                     </div>
                                     <button type="submit" class="btn btn-primary"> Add Exam</button>
                                 </form>

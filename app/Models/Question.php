@@ -21,6 +21,10 @@ class Question extends Model
         'correct_option',
     ];
 
+    protected $casts = [
+        'options' => 'json'
+    ];
+
     public function exam(): BelongsTo
     {
         return $this->belongsTo(Exam::class);

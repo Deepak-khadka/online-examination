@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Foundation\Lib\QuestionType;
 use App\Foundation\Lib\Status;
 use App\Models\Course;
 use App\Models\Exam;
+use App\Models\Question;
 use App\Models\Subject;
 
 class ExamComponent extends BaseComponent implements CrudComponent
@@ -33,8 +35,11 @@ class ExamComponent extends BaseComponent implements CrudComponent
     public $questionFilter = [
         'exam_id' => '',
         'subject_id' => '',
-        'question' => ' '
+        'question' => '',
+        'options' => '',
+        'correct_option' => ''
     ];
+
     protected $rules = [
         'filter.course_id' => 'required|integer',
         'filter.name' => 'required|string',
@@ -94,6 +99,26 @@ class ExamComponent extends BaseComponent implements CrudComponent
         $this->questionFilter['exam_id'] = $this->displayExamSubjects['id'];
         $this->questionFilter['subject_id'] = $subjectId;
         $this->showQuestionForm = true;
+    }
+
+    /* This function used to save the question with respective to the exam id and subject id */
+    public function submitQuestion(): void
+    {
+        $validatedData = $this->validate([
+            'questionFilter.question' => 'required',
+            'questionFilter.options' => 'required',
+            'questionFilter.correct_option' => 'required|integer',
+            'questionFilter.exam_id' => 'required|integer',
+            'questionFilter.subject_id' => 'required|integer',
+        ]);
+
+        $validatedData['questionFilter']['question_type'] = QuestionType::OBJECTIVE;
+
+        Question::create($validatedData['questionFilter']);
+
+        $this->reset();
+
+        $this->setSuccessMessage("Question Added Successfully");
     }
 
 }
