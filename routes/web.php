@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +22,15 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::group(['prefix' => '/admin', 'as' => 'admin.', 'middleware' => 'auth'], function () {
+Route::group(['middleware' => 'auth'], static function () {
+
+    Route::get('/student', [ StudentController::class, 'index'])->name('student.home');
+    Route::post('/question-list/{examId}/{subjectId}', [ StudentController::class, 'getQuestionsList'])->name('student.question-list');
+    Route::get('/test', [ StudentController::class, 'test'])->name('test');
+
+});
+
+Route::group(['prefix' => '/admin', 'as' => 'admin.', 'middleware' => 'auth'], static function () {
     include_once 'admin.php';
 });
 

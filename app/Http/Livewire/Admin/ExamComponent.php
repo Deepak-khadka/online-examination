@@ -90,6 +90,7 @@ class ExamComponent extends BaseComponent implements CrudComponent
     public function toggleDisplay(): void
     {
         $this->displayExamSubjects = [];
+        $this->showQuestionForm = false;
     }
 
     public function addQuestions($subjectId): void
