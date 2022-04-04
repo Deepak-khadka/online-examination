@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('admin.index');
-});
+})->name('dashboard');
 
 Route::get('/profile', [ AdminController::class, 'profile'])->name('profile');
 Route::get('/subjects', [ SubjectController::class, 'index'])->name('subjects');

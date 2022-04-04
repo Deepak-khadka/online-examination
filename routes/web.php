@@ -1,5 +1,6 @@
 <?php
 
+use App\Foundation\Lib\UserType;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +27,7 @@ Route::group(['middleware' => 'auth'], static function () {
 
     Route::get('/student', [ StudentController::class, 'index'])->name('student.home');
     Route::post('/question-list/{examId}/{subjectId}', [ StudentController::class, 'getQuestionsList'])->name('student.question-list');
-    Route::get('/test', [ StudentController::class, 'test'])->name('test');
+    Route::get('/expire-question', [ StudentController::class, 'test'])->name('test');
 
 });
 

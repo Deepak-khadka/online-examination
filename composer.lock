@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a8792c4900a4009c433b8b91137c7e46",
+    "content-hash": "b3bc72d74ad22bd1d647d0cfc9570127",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -121,6 +121,58 @@
                 }
             ],
             "time": "2021-08-15T20:50:18+00:00"
+        },
+        {
+            "name": "copyleaks/php-plagiarism-checker",
+            "version": "v3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Copyleaks/PHP-Plagiarism-Checker.git",
+                "reference": "c5149c87e89bbc6acb673783fd626de156bd2f37"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Copyleaks/PHP-Plagiarism-Checker/zipball/c5149c87e89bbc6acb673783fd626de156bd2f37",
+                "reference": "c5149c87e89bbc6acb673783fd626de156bd2f37",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "autoload.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Copyleaks ltd",
+                    "email": "support@copyleaks.com",
+                    "homepage": "https://copyleaks.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Copyleaks detects online plagiarism and checks content distribution. Use Copyleaks to find out if textual content is original and where it has been used before. This package shows how to integrate with the Copyleaks cloud to search for copyright infringement.",
+            "homepage": "https://api.copyleaks.com",
+            "keywords": [
+                "Copyleaks",
+                "checker",
+                "copyrights",
+                "education",
+                "infringement",
+                "plagiarism",
+                "publisher"
+            ],
+            "support": {
+                "issues": "https://github.com/Copyleaks/PHP-Plagiarism-Checker/issues",
+                "source": "https://github.com/Copyleaks/PHP-Plagiarism-Checker/tree/v3.1.0"
+            },
+            "time": "2022-02-08T10:24:40+00:00"
         },
         {
             "name": "dflydev/dot-access-data",

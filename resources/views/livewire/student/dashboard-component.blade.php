@@ -6,7 +6,7 @@
             <label class="col-sm-3 col-form-label">Exam :</label>
             <div class="col-sm-9">
                 <select class="form-control" wire:model="filter.exam_id" name="exam_id" wire:change="getSubjectList">
-
+                    <option>-- Select Exam ---</option>
                     @foreach($this->examList as $exam)
                         <option
                             value="{{ $exam->id }}">{{ ucfirst($exam->name) . ' for '. $exam->course->name }}</option>

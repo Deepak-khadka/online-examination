@@ -23,6 +23,6 @@ class StudentController extends Controller
 
     public function test()
     {
-        dd('here');
+       return view('student.question.expire');
     }
 }

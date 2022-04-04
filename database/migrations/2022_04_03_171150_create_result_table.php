@@ -1,11 +1,10 @@
 <?php
 
-use App\Foundation\Lib\ExamStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateStudentExamTable extends Migration
+class CreateResultTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +13,13 @@ class CreateStudentExamTable extends Migration
      */
     public function up()
     {
-        Schema::create('student_exam', function (Blueprint $table) {
+        Schema::create('result', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
             $table->foreignId('exam_id')->constrained('exam');
+            $table->string('course_name')->nullable();
             $table->foreignId('subject_id')->constrained('subjects');
-            $table->integer('status')->default(ExamStatus::COMPLETED);
+            $table->foreignId('user_id')->constrained('users');
+            $table->integer('score')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateStudentExamTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student_exam');
+        Schema::dropIfExists('result');
     }
 }

@@ -1,9 +1,10 @@
 <div class="container">
 
     <div class="jumbotron">
-
         <h1>Welcome To Online Examination system</h1>
         <h2 style="color:red;">During Giving Exam, Do not Open another tab</h2>
+
+        <div id="counter_{{$this->index}}" data-end="{{ now() }}"></div>
         <form wire:submit.prevent="verifyAnswer">
             <div class="card">
                 <div class="card-header">
@@ -42,11 +43,24 @@
 
     <script type='text/javascript'>
 
-        window.onload = function() {
-            window.addEventListener('focus', () => {
-                window.location.replace("{{ route('test') }}" );
+        /* window.onload = function() {
+           window.addEventListener('focus', () => {
+                 window.location.replace("{{ route('test') }}" );
             })
-        }
+
+            Livewire.on('resetCounter', () => {
+
+                var count = 0;
+
+                count++;
+                window.setInterval(function (){
+                    count++;
+                    document.getElementById("counter_{{ $this->index }}").innerHTML = count;
+                }, 1000);
+
+            })
+
+        }*/
     </script>
 
 @endpush
