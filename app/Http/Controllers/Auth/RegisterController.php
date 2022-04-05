@@ -59,6 +59,7 @@ class RegisterController extends Controller
             'address' => ['required', 'string' ],
             'city' => ['required', 'string' ],
             'pin' => ['required', 'integer' ],
+            'course_id' => ['sometimes', 'nullable', 'integer' ],
         ]);
     }
 
@@ -79,6 +80,7 @@ class RegisterController extends Controller
             'pin' => $data['pin'],
             'password' => Hash::make($data['password']),
             'user_type' => UserType::STUDENT,
+            'course_id' => $data['course_id'] ?? null,
         ]);
     }
 }

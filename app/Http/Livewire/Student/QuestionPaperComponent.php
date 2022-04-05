@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Student;
 
+use App\Models\Exam;
 use App\Models\Question;
 use App\Models\Result;
 use App\Models\StudentExam;
@@ -21,7 +22,11 @@ class QuestionPaperComponent extends Component
 
     public $answer;
 
-    public $timer = 300;
+    public $hour = 0;
+
+    public $minute;
+
+    public $warning_message;
 
     public function render()
     {
@@ -35,6 +40,7 @@ class QuestionPaperComponent extends Component
                 return view('livewire.student.question.already-done');
             }
 
+            $this->setTimer();
             $this->question = $this->questionList[$this->index];
             return view('livewire.student.question.question-paper-component');
         }
@@ -59,22 +65,21 @@ class QuestionPaperComponent extends Component
     {
         $this->saveResult();
         $this->changeQuestionIndex();
-        $this->resetAnswer();
+        $this->createStudentReport();
+        $this->setTimer();
     }
 
     /* This helps to increment the result or score */
     private function saveResult(): void
     {
         if ((int)$this->question['correct_option'] === (int)$this->answer) {
-            $this->score = ++$this->score;
+            $this->score = 1;
         }
     }
 
     /* Create student done exam */
     private function saveExamCompleted(): void
     {
-        $this->createStudentReport();
-
         StudentExam::create([
             'user_id' => auth()->id(),
             'exam_id' => $this->question['exam_id'],
@@ -97,6 +102,9 @@ class QuestionPaperComponent extends Component
             'user_id' => auth()->user()->id,
             'score' => $this->score
         ]);
+
+        $this->resetAnswer();
+        $this->score = 0;
     }
 
     /* Verify is student already given exam or not */
@@ -106,4 +114,27 @@ class QuestionPaperComponent extends Component
             ->where('exam_id', '=', $this->data['exam_id'])
             ->where('subject_id', '=', $this->data['subject_id'])->exists();
     }
+
+    private function setTimer(): void
+    {
+        $exam = Exam::where('id', $this->data['exam_id'])->first();
+
+        $this->hour = 0;
+        $this->minute = 0;
+        $this->getTime($exam->exam_duration);
+        $this->emit('setCounter', $this->hour.":".$this->minute);
+    }
+
+    private function getTime($exam_duration): void
+    {
+        if($exam_duration >= 60) {
+            ++$this->hour;
+            $exam_duration -= 60;
+            $this->getTime($exam_duration);
+        }else {
+            $this->minute += $exam_duration;
+        }
+    }
+
+
 }

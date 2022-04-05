@@ -1,19 +1,28 @@
 <div class="container">
 
-    <div class="jumbotron">
-        <h1>Welcome To Online Examination system</h1>
-        <h2 style="color:red;">During Giving Exam, Do not Open another tab</h2>
+    <h2 class="counter">
+        <div id="counter"></div>
+    </h2>
 
-        <div id="counter_{{$this->index}}" data-end="{{ now() }}"></div>
+    <div id="counter_temp"></div>
+
+<div class="jumbotron">
+        <h1>Welcome To Online Examination system {{ $this->hour, $this->minute }}</h1>
+        <h2 >
+            During Giving Exam, Do not Open another tab
+        </h2>
+    <p style="color:red;">
+        @if(isset($this->warning_message))
+            {{ $this->warning_message }}
+        @endif
+    </p>
         <form wire:submit.prevent="verifyAnswer">
             <div class="card">
                 <div class="card-header">
                     <strong>Question - {{ $this->question->question }}</strong>
                 </div>
                 <div class="card-body">
-
                     <div class="row">
-
                         <div class="col-6">
                             <div class="form-check">
                                @foreach($this->question->options as $key => $option)
@@ -28,7 +37,7 @@
                     <br>
                 </div>
             </div>
-            <br>
+
             <div class="form-group row">
                 <div class="col-sm-3 ml-auto mr-auto">
                     <button type="submit" class="form-control btn btn-primary" name="submit">Next</button>
@@ -36,31 +45,64 @@
             </div>
         </form>
     </div>
-
 </div>
 
 @push('scripts')
 
     <script type='text/javascript'>
 
-        /* window.onload = function() {
-           window.addEventListener('focus', () => {
-                 window.location.replace("{{ route('test') }}" );
-            })
+        $(function () {
+            var timer2 = "{{ $this->hour }}:{{ $this->minute }}";
+            var interval = setInterval(function() {
+                var timer = timer2.split(':');
 
-            Livewire.on('resetCounter', () => {
+                var minutes = parseInt(timer[0], 10);
+                var seconds = parseInt(timer[1], 10);
+                --seconds;
+                minutes = (seconds < 0) ? --minutes : minutes;
+                if (minutes < 0) clearInterval(interval);
+                seconds = (seconds < 0) ? 59 : seconds;
+                seconds = (seconds < 10) ? '0' + seconds : seconds;
 
-                var count = 0;
+                if(minutes < 0) {
+                    @this.call('verifyAnswer')
+                }
 
-                count++;
-                window.setInterval(function (){
-                    count++;
-                    document.getElementById("counter_{{ $this->index }}").innerHTML = count;
+                $('#counter').html(minutes + ':' + seconds);
+                timer2 = minutes + ':' + seconds;
+            }, 1000);
+        });
+
+        window.onload = function() {
+
+            Livewire.on('setCounter', time => {
+                var timer2 = time;
+                $('#counter').attr('id', 'disabled');
+                var interval = setInterval(function() {
+                    var timer = timer2.split(':');
+
+                    var minutes = parseInt(timer[0], 10);
+                    var seconds = parseInt(timer[1], 10);
+                    --seconds;
+                    minutes = (seconds < 0) ? --minutes : minutes;
+                    if (minutes < 0) clearInterval(interval);
+                    seconds = (seconds < 0) ? 59 : seconds;
+                    seconds = (seconds < 10) ? '0' + seconds : seconds;
+
+                    if(minutes < 0) {
+                        @this.call('verifyAnswer')
+                    }
+
+                    $('#counter_temp').html(minutes + ':' + seconds);
+                    timer2 = minutes + ':' + seconds;
                 }, 1000);
-
             })
 
-        }*/
+           window.addEventListener('focus', () => {
+               @this.call('verifyAnswer')
+               @this.set('warning_message', "You have found to be cheated so we skipped this question.")
+            })
+        }
     </script>
 
 @endpush

@@ -2,6 +2,7 @@
 
 use App\Foundation\Lib\UserType;
 use App\Http\Controllers\StudentController;
+use Copyleaks\Copyleaks;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware('auth');
 
 Auth::routes();
 
@@ -31,7 +32,7 @@ Route::group(['middleware' => 'auth'], static function () {
 
 });
 
-Route::group(['prefix' => '/admin', 'as' => 'admin.', 'middleware' => 'auth'], static function () {
+Route::group(['prefix' => '/admin', 'as' => 'admin.', 'middleware' => 'admin'], static function () {
     include_once 'admin.php';
 });
 

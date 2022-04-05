@@ -44,8 +44,8 @@ class ExamComponent extends BaseComponent implements CrudComponent
         'filter.course_id' => 'required|integer',
         'filter.name' => 'required|string',
         'filter.exam_date' => 'required|date',
-        'filter.full_marks' => 'required',
-        'filter.exam_duration' => 'required',
+        'filter.full_marks' => 'required|int|max:100',
+        'filter.exam_duration' => 'required|integer',
         'filter.terms_and_conditions' => 'required|max:400'
     ];
 
@@ -55,6 +55,7 @@ class ExamComponent extends BaseComponent implements CrudComponent
         'filter.exam_date.required' => 'Exam date is required',
         'filter.full_marks.required' => 'Full Marks is required',
         'filter.exam_duration.required' => 'Exam duration is required',
+        'filter.exam_duration.integer' => 'Exam duration must be an integer',
         'filter.terms_and_conditions.required' => 'Terms and Conditions is required',
         'filter.terms_and_conditions.max' => 'Terms and Conditions should be less than 400 character'
     ];

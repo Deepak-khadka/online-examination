@@ -52,7 +52,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="exam_duration">Exam Duration in Minutes</label>
-                                        <input type="text" id="exam_duration" wire:model="filter.exam_duration" class="form-control" placeholder="Exam Duration" name="exam_duration">
+                                        <input type="text" id="exam_duration" wire:model="filter.exam_duration" class="form-control" placeholder="Exam Duration in second" name="exam_duration">
 
                                         @error('filter.exam_duration')
                                         <span class="error">{{ $message }}</span>

@@ -7,9 +7,9 @@
             <div class="col-sm-9">
                 <select class="form-control" wire:model="filter.exam_id" name="exam_id" wire:change="getSubjectList">
                     <option>-- Select Exam ---</option>
-                    @foreach($this->examList as $exam)
+                    @foreach($this->examList as $id => $exam)
                         <option
-                            value="{{ $exam->id }}">{{ ucfirst($exam->name) . ' for '. $exam->course->name }}</option>
+                            value="{{ $id }}">{{ ucfirst($exam) . ' for '. auth()->user()->course->name }}</option>
                     @endforeach
                 </select>
 

@@ -207,6 +207,20 @@
                     </div>
                 </div>
 
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Select Course :-</label>
+                    <div class="col-sm-7">
+
+                        {!! Form::select('course_id', $data['courses'], null, ['class' => 'form-control', 'placeholder' => 'Select Course', 'required']) !!}
+
+                        @error('course_id')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                </div>
+
                 <br>
                 <div class="form-group row">
                     <div class="col-sm-4 ml-auto">

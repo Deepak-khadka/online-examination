@@ -21,7 +21,8 @@ class DashboardComponent extends Component
 
     public function render()
     {
-        $this->examList = Exam::with('course')->get();
+
+        $this->examList = auth()->user()->course->exams->pluck('name', 'id');
         return view('livewire.student.dashboard-component');
     }
 
