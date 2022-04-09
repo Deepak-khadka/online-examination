@@ -21,7 +21,11 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->address }}</td>
                 <td>{{ $user->mobile }}</td>
-                <td>{{ $user->status }}</td>
+                <td wire:click.prevent="verifyStudent({{ $user->id }})">
+                    <span  class="badge badge-{{ $user->status === \App\Foundation\Lib\Status::ACTIVE ? 'success' : 'danger' }}">
+                        {{ $user->status === \App\Foundation\Lib\Status::ACTIVE ? 'Verified' : 'Not Verified' }}
+                    </span>
+                </td>
             </tr>
         @endforeach
         </tbody>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Foundation\Lib\Status;
 use App\Foundation\Lib\UserType;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
@@ -81,6 +82,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'user_type' => UserType::STUDENT,
             'course_id' => $data['course_id'] ?? null,
+            'status' => Status::INACTIVE
         ]);
     }
 }

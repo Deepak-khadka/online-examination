@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin;
 
+use App\Foundation\Lib\Status;
 use App\Foundation\Lib\UserType;
 use App\Models\User;
 
@@ -22,11 +23,18 @@ class RecordsComponent extends BaseComponent implements CrudComponent
 
     public function update(): void
     {
-        // TODO: Implement update() method.
+
     }
 
     public function delete($id): void
     {
         // TODO: Implement delete() method.
+    }
+
+    public function verifyStudent($id)
+    {
+       $user =  User::find($id);
+       $user['status'] = $user['status'] === Status::ACTIVE ? Status::INACTIVE : Status::ACTIVE;
+       $user->save();
     }
 }
