@@ -56,12 +56,12 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    {{--<div class="form-group row">
                         <div class="col-sm-3 ml-auto mr-auto">
 
                             <button type="submit" class="form-control btn btn-primary" name="submit">Next</button>
                         </div>
-                    </div>
+                    </div>--}}
                 </form>
             </div>
         @endif
