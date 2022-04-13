@@ -67,6 +67,7 @@ class QuestionPaperComponent extends Component
         $this->changeQuestionIndex();
         $this->createStudentReport();
         $this->setTimer();
+        $this->warning_message = '';
     }
 
     /* This helps to increment the result or score */
@@ -120,8 +121,8 @@ class QuestionPaperComponent extends Component
         $exam = Exam::where('id', $this->data['exam_id'])->first();
 
         $this->hour = 0;
-        $this->minute = 0;
-        $this->getTime($exam->exam_duration);
+        $this->minute = $exam->exam_duration;
+//        $this->getTime($exam->exam_duration);
         $this->emit('setCounter', $this->hour.":".$this->minute);
     }
 

@@ -6,11 +6,11 @@
 <div class="container">
     <div class="row p-2 top-header">
         <div class="col-sm-3">
-            <img src="../images/raj.png "style="width:200px">
+            <img src="{{ asset('image/raj.png') }}"style="width:200px">
         </div>
         <div class="col-sm-9 text-light">
             <h1>Online Examination System</h1>
-            <span class="pl-5">...because  examination  test the ablility</span>
+            <span class="pl-5">...because  examination  test the ability</span>
         </div>
     </div>
 

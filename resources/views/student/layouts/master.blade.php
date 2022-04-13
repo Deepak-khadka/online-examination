@@ -10,7 +10,7 @@
         </div>
         <div class="col-sm-9 text-light">
             <h1>Online Examination System</h1>
-            <span class="pl-5">...because  examination  test the ablility</span>
+            <span class="pl-5">...because  examination  test the ability</span>
         </div>
     </div>
 

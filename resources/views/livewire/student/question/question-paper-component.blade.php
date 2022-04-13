@@ -1,13 +1,14 @@
 <div class="container">
 
     <h2 class="counter">
+        <div id="countdown"></div>
         <div id="counter"></div>
     </h2>
 
     <div id="counter_temp"></div>
 
 <div class="jumbotron">
-        <h1>Welcome To Online Examination system {{ $this->hour, $this->minute }}</h1>
+        <h1>Welcome To Online Examination system</h1>
         <h2 >
             During Giving Exam, Do not Open another tab
         </h2>
@@ -26,7 +27,7 @@
                         <div class="col-6">
                             <div class="form-check">
                                @foreach($this->question->options as $key => $option)
-                                    <input wire:model="answer" class="form-check-input" type="radio" id="answer" value="{{ $key }}" required="required" name='answer'>
+                                    <input wire:model.defer="answer" class="form-check-input" type="radio" id="answer" value="{{ $key }}" required="required" name='answer'>
                                     <label for="answer">{{ $option }}</label>
                                     <br>
                                 @endforeach
@@ -40,6 +41,7 @@
 
             <div class="form-group row">
                 <div class="col-sm-3 ml-auto mr-auto">
+
                     <button type="submit" class="form-control btn btn-primary" name="submit">Next</button>
                 </div>
             </div>
@@ -51,55 +53,32 @@
 
     <script type='text/javascript'>
 
-        $(function () {
-            var timer2 = "{{ $this->hour }}:{{ $this->minute }}";
-            var interval = setInterval(function() {
-                var timer = timer2.split(':');
+       window.onload = function() {
 
-                var minutes = parseInt(timer[0], 10);
-                var seconds = parseInt(timer[1], 10);
-                --seconds;
-                minutes = (seconds < 0) ? --minutes : minutes;
-                if (minutes < 0) clearInterval(interval);
-                seconds = (seconds < 0) ? 59 : seconds;
-                seconds = (seconds < 10) ? '0' + seconds : seconds;
+           var downloadTimer;
 
-                if(minutes < 0) {
-                    @this.call('verifyAnswer')
-                }
+           function fn_start() {
+               var timeleft = '{{ $this->minute }}';
 
-                $('#counter').html(minutes + ':' + seconds);
-                timer2 = minutes + ':' + seconds;
-            }, 1000);
-        });
+               clearInterval(downloadTimer);
 
-        window.onload = function() {
+               downloadTimer = setInterval(function() {
+                   document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
+                   timeleft -= 1;
+                   if (timeleft <= 0) {
+                       clearInterval(downloadTimer);
+                       @this.call('verifyAnswer')
+                   }
+               }, 1000);
+           }
 
-            Livewire.on('setCounter', time => {
-                var timer2 = time;
-                $('#counter').attr('id', 'disabled');
-                var interval = setInterval(function() {
-                    var timer = timer2.split(':');
-
-                    var minutes = parseInt(timer[0], 10);
-                    var seconds = parseInt(timer[1], 10);
-                    --seconds;
-                    minutes = (seconds < 0) ? --minutes : minutes;
-                    if (minutes < 0) clearInterval(interval);
-                    seconds = (seconds < 0) ? 59 : seconds;
-                    seconds = (seconds < 10) ? '0' + seconds : seconds;
-
-                    if(minutes < 0) {
-                        @this.call('verifyAnswer')
-                    }
-
-                    $('#counter_temp').html(minutes + ':' + seconds);
-                    timer2 = minutes + ':' + seconds;
-                }, 1000);
+            Livewire.on('setCounter', () => {
+                fn_start();
             })
 
            window.addEventListener('focus', () => {
                @this.call('verifyAnswer')
+               fn_start();
                @this.set('warning_message', "You have found to be cheated so we skipped this question.")
             })
         }

@@ -21,6 +21,8 @@ Route::get('/', function () {
 })->middleware('auth');
 
 Auth::routes();
+Route::post('/login', [App\Http\Controllers\LoginController::class, 'login']);
+Route::get('/register', [App\Http\Controllers\RegisterController::class, 'showRegistrationForm'])->name('register');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
