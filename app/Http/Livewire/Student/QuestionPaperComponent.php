@@ -47,7 +47,6 @@ class QuestionPaperComponent extends Component
                 return view('livewire.student.question.already-done');
             }
 
-            $this->setTimer();
             $this->question = $this->questionList[$this->index];
             return view('livewire.student.question.question-paper-component');
         }
@@ -60,7 +59,7 @@ class QuestionPaperComponent extends Component
     public function changeQuestionIndex(): void
     {
         $this->startMessage = false;
-        $this->index = ++$this->index;
+        ++$this->index;
     }
 
     public function resetAnswer(): void

@@ -74,6 +74,8 @@
     <script type='text/javascript'>
 
         window.onload = function() {
+            var interval;
+
             Livewire.on('setCounter', time => {
                 var timer2 = time;
                 $('#counter').attr('id', 'disabled');
@@ -89,11 +91,12 @@
                     if(minutes < 0) {
                         @this.call('verifyAnswer')
                     }
-                    
+
                     $('#countdown').html(minutes + ':' + seconds);
                     timer2 = minutes + ':' + seconds;
                 }, 1000);
             })
+
             window.addEventListener('focus', () => {
                 @this.call('verifyAnswer')
                 @this.set('warning_message', "You have found to be cheated so we skipped this question.")
