@@ -12,7 +12,7 @@ class QuestionPaperComponent extends Component
 {
     public $data = [];
 
-    public $index = 0;
+    public $index = -1;
 
     public $score = 0;
 
@@ -28,8 +28,15 @@ class QuestionPaperComponent extends Component
 
     public $warning_message;
 
+    public $startMessage = true;
+
     public function render()
     {
+
+        if ($this->startMessage) {
+            return view('livewire.student.question.question-paper-component');
+        }
+
         $this->questionList = Question::where('exam_id', '=', $this->data['exam_id'])->where('subject_id', '=', $this->data['subject_id'])->get();
 
         $totalQuestionList = count($this->questionList);
@@ -52,6 +59,7 @@ class QuestionPaperComponent extends Component
 
     public function changeQuestionIndex(): void
     {
+        $this->startMessage = false;
         $this->index = ++$this->index;
     }
 
@@ -63,11 +71,16 @@ class QuestionPaperComponent extends Component
     /* Verify and reset the answer and change the question */
     public function verifyAnswer(): void
     {
-        $this->saveResult();
+
+        if($this->index >= 0) {
+            $this->saveResult();
+            $this->createStudentReport();
+        }
+
         $this->changeQuestionIndex();
-        $this->createStudentReport();
         $this->setTimer();
         $this->warning_message = '';
+
     }
 
     /* This helps to increment the result or score */
@@ -119,10 +132,9 @@ class QuestionPaperComponent extends Component
     private function setTimer(): void
     {
         $exam = Exam::where('id', $this->data['exam_id'])->first();
-
         $this->hour = 0;
         $this->minute = $exam->exam_duration;
-//        $this->getTime($exam->exam_duration);
+        $this->getTime($exam->exam_duration);
         $this->emit('setCounter', $this->hour.":".$this->minute);
     }
 
@@ -133,7 +145,7 @@ class QuestionPaperComponent extends Component
             $exam_duration -= 60;
             $this->getTime($exam_duration);
         }else {
-            $this->minute += $exam_duration;
+            $this->minute = $exam_duration;
         }
     }
 

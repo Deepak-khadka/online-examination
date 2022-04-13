@@ -13,8 +13,6 @@ class DashboardComponent extends Component
 
     public $subjectList = [];
 
-    public $startPage = false;
-
     public $filter = [
         'subject_id' => '',
         'exam_id' => ''
@@ -35,8 +33,4 @@ class DashboardComponent extends Component
         $this->subjectList = Exam::with('course.subjects')->find($this->filter['exam_id']);
     }
 
-    public function showStarterPage(): void
-    {
-       $this->startPage = true;
-    }
 }
