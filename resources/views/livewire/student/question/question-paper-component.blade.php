@@ -21,9 +21,20 @@
             </div>
 
         @else
-
             <div class="jumbotron">
-                <div id="countdown"></div>
+                <p>
+                    <span class="badge badge-primary pull-right">
+                        Given Time {{ $timerSection['fixedTimerMinute'] ?? 0 }} minutes
+                    </span>
+
+                    Total Page : {{ $index + 1 }}/{{ count($questionList) }}
+                </p>
+
+                <div id="countdown"
+                     wire:poll.1000ms.keep-alive="countdownTimer">
+                    Timer Counter :
+                    @if(! is_null($timerSection['minutes'])) {{ $timerSection['minutes'] }}m : @endif  {{ $timerSection['seconds'] }}s
+                </div>
 
                 <h1>Welcome To Online Examination system</h1>
                 <h2 >
@@ -76,26 +87,26 @@
         window.onload = function() {
             var interval;
 
-            Livewire.on('setCounter', time => {
-                var timer2 = time;
-                $('#counter').attr('id', 'disabled');
-                var interval = setInterval(function() {
-                    var timer = timer2.split(':');
-                    var minutes = parseInt(timer[0], 10);
-                    var seconds = parseInt(timer[1], 10);
-                    --seconds;
-                    minutes = (seconds < 0) ? --minutes : minutes;
-                    if (minutes < 0) clearInterval(interval);
-                    seconds = (seconds < 0) ? 59 : seconds;
-                    seconds = (seconds < 10) ? '0' + seconds : seconds;
-                    if(minutes < 0) {
-                        @this.call('verifyAnswer')
-                    }
+            {{--Livewire.on('setCounter', time => {--}}
+            {{--    var timer2 = time;--}}
+            {{--    $('#counter').attr('id', 'disabled');--}}
+            {{--    var interval = setInterval(function() {--}}
+            {{--        var timer = timer2.split(':');--}}
+            {{--        var minutes = parseInt(timer[0], 10);--}}
+            {{--        var seconds = parseInt(timer[1], 10);--}}
+            {{--        --seconds;--}}
+            {{--        minutes = (seconds < 0) ? --minutes : minutes;--}}
+            {{--        if (minutes < 0) clearInterval(interval);--}}
+            {{--        seconds = (seconds < 0) ? 59 : seconds;--}}
+            {{--        seconds = (seconds < 10) ? '0' + seconds : seconds;--}}
+            {{--        if(minutes < 0) {--}}
+            {{--            @this.call('verifyAnswer')--}}
+            {{--        }--}}
 
-                    $('#countdown').html(minutes + ':' + seconds);
-                    timer2 = minutes + ':' + seconds;
-                }, 1000);
-            })
+            {{--        $('#countdown').html(minutes + ':' + seconds);--}}
+            {{--        timer2 = minutes + ':' + seconds;--}}
+            {{--    }, 1000);--}}
+            {{--})--}}
 
             window.addEventListener('focus', () => {
                 @this.call('verifyAnswer')

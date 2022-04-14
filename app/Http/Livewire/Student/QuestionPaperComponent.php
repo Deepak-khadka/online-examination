@@ -30,6 +30,14 @@ class QuestionPaperComponent extends Component
 
     public $startMessage = true;
 
+    public $timerSection = [
+        'startTime' => null,
+        'fixedTimerMinute' => null,
+        'seconds' => null,
+        'minutes' => null,
+        'distanceToMaintain' => null,
+    ];
+
     public function render()
     {
 
@@ -70,6 +78,9 @@ class QuestionPaperComponent extends Component
     /* Verify and reset the answer and change the question */
     public function verifyAnswer(): void
     {
+        // Reset Minutes for next question
+        $this->timerSection['minutes'] = null;
+        // $this->timerSection['seconds'] = null; if null it's delaying like 1 sec
 
         if($this->index >= 0) {
             $this->saveResult();
@@ -133,8 +144,30 @@ class QuestionPaperComponent extends Component
         $exam = Exam::where('id', $this->data['exam_id'])->first();
         $this->hour = 0;
         $this->minute = $exam->exam_duration;
-        $this->getTime($exam->exam_duration);
-        $this->emit('setCounter', $this->hour.":".$this->minute);
+
+        $this->timerSection['startTime'] = now()->getPreciseTimestamp(3);
+        $this->timerSection['countDownDate'] = now()->addMinutes($exam->exam_duration)->getPreciseTimestamp(3);
+
+        $this->timerSection['fixedTimerMinute'] = (int) $exam->exam_duration;
+    }
+
+    public function countdownTimer(): void
+    {
+        // Find the distance between now and the count down date
+        $this->timerSection['distanceToMaintain'] = $this->timerSection['startTime'] - now()->getPreciseTimestamp(3);
+
+        // Time calculations for minutes and seconds
+        $this->timerSection['seconds'] = abs( floor( ($this->timerSection['distanceToMaintain'] % (1000 * 60)) / 1000 ) );
+
+        if (( (int) $this->timerSection['seconds'] ) === 60) {
+            $this->timerSection['minutes'] = abs( floor( ($this->timerSection['distanceToMaintain'] % (1000 * 60 * 60)) / (1000* 60) ) );
+        }
+
+
+        // If the count down is over, go to next question
+        if ($this->timerSection['fixedTimerMinute'] === $this->timerSection['minutes']) {
+            $this->verifyAnswer();
+        }
     }
 
     private function getTime($exam_duration): void
